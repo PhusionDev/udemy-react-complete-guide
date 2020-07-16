@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
 import Person from './Person/Person';
+import UserInput from './UserInput/UserInput';
+import UserOutput from './UserOutput/UserOutput';
 
 class App extends Component {
   state = {
@@ -9,7 +11,11 @@ class App extends Component {
       { name: 'Manu', age: 29 },
       { name: 'Stephanie', age: 26 }
     ],
-    otherState: 'some other value'
+    otherState: 'some other value',
+    user: {
+      username: "user",
+      password: "password"
+    }
   }
 
   switchNameHandler = (newName) => {
@@ -30,6 +36,15 @@ class App extends Component {
         { name: event.target.value, age: 29 },
         { name: 'Stephanie', age: 27 }
       ]
+    })
+  }
+
+  usernameChangedHandler = (event) => {
+    this.setState({
+      user: {
+        username: event.target.value,
+        password: this.state.user.password
+      }
     })
   }
 
@@ -60,6 +75,22 @@ class App extends Component {
         <Person
           name={this.state.persons[2].name}
           age={this.state.persons[2].age} />
+        <UserOutput
+          text1="Hello this is a random paragraph of text #1"
+          text2="This is another paragraph of text just to illustrate the point"
+        />
+        <UserOutput
+          text1="And yet another paragraph can you believe it?"
+          text2="This just never ends, it keeps going seemingly."
+        />
+        <UserInput
+          username={this.state.user.username}
+          changed={this.usernameChangedHandler}
+        />
+        <UserOutput 
+          text1={this.state.user.username}
+          text2={this.state.user.password}
+        />
       </div>
     );
   }
