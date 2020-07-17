@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
 import Person from './Person/Person';
-import UserInput from './UserInput/UserInput';
-import UserOutput from './UserOutput/UserOutput';
 
 class App extends Component {
   state = {
@@ -12,10 +10,7 @@ class App extends Component {
       { name: 'Stephanie', age: 26 }
     ],
     otherState: 'some other value',
-    user: {
-      username: "user",
-      password: "password"
-    }
+    showPersons: false
   }
 
   switchNameHandler = (newName) => {
@@ -39,13 +34,9 @@ class App extends Component {
     })
   }
 
-  usernameChangedHandler = (event) => {
-    this.setState({
-      user: {
-        username: event.target.value,
-        password: this.state.user.password
-      }
-    })
+  togglePersonsHandler = () => {
+    const doesShow = this.state.showPersons;
+    this.setState({showPersons: !doesShow});
   }
 
   render() {
@@ -63,34 +54,23 @@ class App extends Component {
         <p>This is really working!</p>
         <button
           style={style}
-          onClick={() => this.switchNameHandler('Maximilian!!')}>Switch Name</button>
-        <Person
-          name={this.state.persons[0].name}
-          age={this.state.persons[0].age} />
-        <Person
-          name={this.state.persons[1].name}
-          age={this.state.persons[1].age}
-          click={this.switchNameHandler.bind(this, 'Max!')}
-          changed={this.nameChangedHandler} >My Hobbies: Racing</Person>
-        <Person
-          name={this.state.persons[2].name}
-          age={this.state.persons[2].age} />
-        <UserOutput
-          text1="Hello this is a random paragraph of text #1"
-          text2="This is another paragraph of text just to illustrate the point"
-        />
-        <UserOutput
-          text1="And yet another paragraph can you believe it?"
-          text2="This just never ends, it keeps going seemingly."
-        />
-        <UserInput
-          username={this.state.user.username}
-          changed={this.usernameChangedHandler}
-        />
-        <UserOutput 
-          text1={this.state.user.username}
-          text2={this.state.user.password}
-        />
+          onClick={this.togglePersonsHandler}>Toggle Persons
+        </button>
+        { this.state.showPersons ?
+          <div>
+            <Person
+              name={this.state.persons[0].name}
+              age={this.state.persons[0].age} />
+            <Person
+              name={this.state.persons[1].name}
+              age={this.state.persons[1].age}
+              click={this.switchNameHandler.bind(this, 'Max!')}
+              changed={this.nameChangedHandler} >My Hobbies: Racing</Person>
+            <Person
+              name={this.state.persons[2].name}
+              age={this.state.persons[2].age} />
+          </div> : null
+        }
       </div>
     );
   }
