@@ -63,6 +63,12 @@ class App extends Component {
     textArray.splice(charIndex,1);
     assignment.text = textArray.join('');
     this.setState({assignment: assignment})
+
+    // Instructor's Solution (adapted)
+    // const text = this.state.assignment.text.split('');
+    // text.splice(charIndex, 1);
+    // const updatedText = text.join('');
+    // this.setState({assignment: { text: updatedText }})
   }
 
   render() {
