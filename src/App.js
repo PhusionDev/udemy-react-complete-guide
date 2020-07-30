@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import './App.css';
 import Person from './Person/Person';
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 
 class App extends Component {
   state = {
@@ -15,13 +16,6 @@ class App extends Component {
     assignment: {
       text: ''
     }
-  }
-
-  deletePersonHandler = (personIndex) => {
-    //const persons = this.state.persons.slice();
-    const persons = [...this.state.persons];
-    persons.splice(personIndex, 1);
-    this.setState({persons: persons});
   }
 
   nameChangedHandler = (event, id) => {
@@ -41,6 +35,13 @@ class App extends Component {
     persons[personIndex] = person;
 
     this.setState({ persons: persons });
+  }
+
+  deletePersonHandler = (personIndex) => {
+    //const persons = this.state.persons.slice();
+    const persons = [...this.state.persons];
+    persons.splice(personIndex, 1);
+    this.setState({persons: persons});
   }
 
   togglePersonsHandler = () => {
@@ -69,13 +70,14 @@ class App extends Component {
         <div>
           {this.state.persons.map((person, index) => {
             return (
-              <Person
-                click={() => this.deletePersonHandler(index)}
-                name={person.name}
-                age={person.age}
-                key={person.id}
-                changed={(event) => this.nameChangedHandler(event, person.id)}
-                />
+              <ErrorBoundary key={person.id}>
+                <Person
+                  click={() => this.deletePersonHandler(index)}
+                  name={person.name}
+                  age={person.age}
+                  changed={(event) => this.nameChangedHandler(event, person.id)}
+                  />
+                </ErrorBoundary>
             )})}
         </div>
       );
